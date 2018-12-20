@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.core.validators import ValidationError
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
+from django import forms
 
 
 
@@ -64,19 +65,13 @@ def user_register(request):
         # if request is a post request the collect all the data from the form.
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
-            username = request.POST('username')
-            password1 = request.POST('password1')
-            password2 = request.POST('password2')
-            if not password1 == password2:
-                raise ValidationError("Password Mismatch")
-
-            else:
-                form.save()
-                user = authenticate(request, username=username, password=password1)
-                if user:
-                    login(request, user)
-                    return redirect('home')
-            return HttpResponseRedirect(reverse('register'))
+            username = request.POST["username"]
+            password1 = request.POST["password1"]
+            form.save()
+            user = authenticate(request, username=username, password=password1)
+            if user:
+                login(request, user)
+            return redirect('home')
     else:
         form = UserRegistrationForm()
         args = {'form': form}
