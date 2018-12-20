@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load socialaccount %}
+{% block body %}
+<body>
+
+<h1>Login</h1>
+<div align="center">
+    <h1>Login</h1>
+<form method="POST">
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="Login"/>
+</form>
+</div><br />
+<div align="center">
+    <h1>OR</h1><br />
+    <h2>Sign in using Your Facebook Account.</h2><br />
+    <h1><a href="{% provider_login_url 'facebook' %}" >Facebook </a></h1>
+</div>
+</body>
+{% endblock %}
